@@ -7,17 +7,17 @@ describe("Requests to the root path", function() {
             .get("/")
             .expect(200, done);
     });
-    
-    it("Returns HTML format", function(done){
-       request(app)
-       .get("/")
-       .expect("Content-Type",/html/,done);
+
+    it("Returns HTML format", function(done) {
+        request(app)
+            .get("/")
+            .expect("Content-Type", /html/, done);
     });
-    
-    it("Returns an index file with Cities", function(done){
-       request(app)
-        .get("/")
-        .expect(/cities/i, done); 
+
+    it("Returns an index file with Cities", function(done) {
+        request(app)
+            .get("/")
+            .expect(/cities/i, done);
     });
 });
 
@@ -45,5 +45,22 @@ describe("Listing cities on /cities", function() {
     });
 });
 
+
+describe("Creating new cities", function() {
+    it("Returns a 201 status code", function(done) {
+        request(app)
+            .post("/cities")
+            .send("name=Springfield&description=where+the+simpson+live")
+            .expect(201, done);
+
+    });
+
+    it("Return the city name", function(done) {
+        request(app)
+            .post("/cities")
+            .send("name=Springfield&description=where+the+simpson+live")
+            .expect(/springfield/i, done);
+    });
+});
 
 
