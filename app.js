@@ -12,9 +12,8 @@ if (process.env.REDISTOGO_URL) {
     client.auth(rtg.auth.split(":")[1]);
 } else {
     client = redis.createClient(); 
+    client.select((process.env.NODE_ENV || "development").length);
 }
-
-client.select((process.env.NODE_ENV || "development").length);
 
 //END REDIS connection....
 
