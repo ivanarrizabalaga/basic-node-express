@@ -33,9 +33,22 @@ app.get("/cities", function(request, response) {
 app.post("/cities", urlencoded, function(request, response) {
     var newCity = request.body;
 
+    if(!newCity.name || !newCity.description){
+        response.sendStatus(400);
+        return;    
+    }
+    
     client.hset("cities", newCity.name, newCity.description, function(error) {
         if (error) throw error;
         response.status(201).json(newCity.name);
+    });
+});
+
+app.delete("/cities/:name", function(request, response){
+    client.hdel("cities", request.params.name, function(error){
+        if (error) throw error;
+        
+        response.sendStatus(204);
     });
 });
 
